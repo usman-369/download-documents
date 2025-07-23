@@ -12,15 +12,15 @@ from apps.users.models import UserDocuments
 
 
 class Command(BaseCommand):
-    help = "Download cédulas and/or selfies from S3 on the Desktop. Supports folder, zip, or both versions. (default: folder)"
+    help = "Download ID cards and/or selfies from AWS S3 cloud on the Desktop. Supports folder, zip, or both versions. (default: folder)"
 
     def add_arguments(self, parser):
         parser.add_argument(
             "--type",
             type=str,
-            choices=["cedula", "selfie", "both"],
+            choices=["id_card", "selfie", "both"],
             required=True,
-            help="Type of document to download: cedula, selfie, or both. (necessary)",
+            help="Type of document to download: ID card, selfie, or both. (necessary)",
         )
         parser.add_argument(
             "--limit",
@@ -89,7 +89,7 @@ class Command(BaseCommand):
             self.stdout.write(self.style.ERROR("Invalid start date format. Use YYYY-MM-DD."))
             return
 
-        types_to_process = ["cedula", "selfie"] if doc_type == "both" else [doc_type]
+        types_to_process = ["id_card", "selfie"] if doc_type == "both" else [doc_type]
 
         # Setup boto3
         s3 = boto3.client(
